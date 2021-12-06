@@ -1,0 +1,23 @@
+#/bin/sh                                                                       
+wifi="com.xxx.wifi/.MainActivity"                                           
+gallery="com.xxx.photos/com.xxx.gallery.app.GalleryMain"                 
+while :                                                                        
+do                                                                             
+    ping -c 1 -W 2 www.baidu.com                                               
+    if [ $? == 0 ]; then                                                       
+        echo turse                                                             
+        dumpsys activity activities | grep mResumedActivity |grep $wifi        
+        if [ $? == 0 ]; then                                                   
+            am start -n com.xxx.photos/com.huawei.gallery.app.GalleryMain   
+        else                                                                   
+            am start -n com.xxx.wifi/.MainActivity                          
+        fi                                                                     
+    else                                                                       
+        echo falsee                                                            
+        dumpsys activity activities | grep mResumedActivity | grep $wifi       
+        if [ $? != 0 ]; then                                                   
+            am start -n com.xxx.wifi/.MainActivity                          
+        fi                                                                     
+    fi                                                                         
+    sleep 2                                                                    
+done                                                                           
